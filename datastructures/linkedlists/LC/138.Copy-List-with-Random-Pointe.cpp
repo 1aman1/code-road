@@ -16,7 +16,7 @@ public:
 
 class Solution
 {
-    void DeepCopyAndInterleave(Node *head)
+    void cloneAndInterLeavePtrs(Node *head)
     {
         Node *curr = head;
         while (curr)
@@ -29,7 +29,7 @@ class Solution
         }
     }
 
-    void reflectRandoms(Node *head)
+    void copyRandomPtrs(Node *head)
     {
         Node *curr = head;
         while (curr)
@@ -40,7 +40,7 @@ class Solution
         }
     }
 
-    Node *extractNewList(Node *head)
+    Node *separateClonedList(Node *head)
     {
         Node *curr = head;
         Node *newHead = head->next;
@@ -65,12 +65,10 @@ public:
         if (!head)
             return head;
 
-        DeepCopyAndInterleave(head);
+        cloneAndInterLeavePtrs(head);
 
-        reflectRandoms(head);
+        copyRandomPtrs(head);
 
-        Node *newList = extractNewList(head);
-
-        return newList;
+        return separateClonedList(head);;
     }
 };
