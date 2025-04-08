@@ -1,4 +1,3 @@
-
 class Twitter
 {
     int globalTimeStamp;
@@ -38,9 +37,8 @@ public:
         auto newTweet = make_shared<tweetNode>(tweetId, ++globalTimeStamp);
         if (useridToTweetlist.find(userId) != useridToTweetlist.end())
         {
-            auto head = useridToTweetlist.at(userId);
-            newTweet->next = head;
-            head = newTweet;
+            newTweet->next = useridToTweetlist.at(userId);
+            useridToTweetlist.at(userId) = newTweet;
         }
         else
         {
@@ -118,12 +116,3 @@ public:
         }
     }
 };
-
-/**
- * Your Twitter object will be instantiated and called as such:
- * Twitter* obj = new Twitter();
- * obj->postTweet(userId,tweetId);
- * vector<int> param_2 = obj->getNewsFeed(userId);
- * obj->follow(followerId,followeeId);
- * obj->unfollow(followerId,followeeId);
- */

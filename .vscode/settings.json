@@ -7,6 +7,9 @@
         "vector": "cpp",
         "initializer_list": "cpp",
         "utility": "cpp",
-        "*.tcc": "cpp"
+        "*.tcc": "cpp",
+        "algorithm": "cpp",
+        "functional": "cpp",
+        "unordered_set": "cpp"
     }
 }
