@@ -18,22 +18,18 @@ public:
 
         ListNode *dummyHead = new ListNode(INT_MIN, head);
 
-        ListNode *curr = head;
-        ListNode *prev = dummyHead;
+        ListNode *curr = dummyHead;
         ListNode *deleteNode = nullptr;
 
-        while (curr)
+        while (curr && curr->next)
         {
-            if (curr->val == val)
+            if (curr->next->val == val)
             {
-                deleteNode = curr;
-                prev->next = curr->next;
-                curr = curr->next;
+                deleteNode = curr->next;
+                curr->next = curr->next->next;
                 delete deleteNode;
                 continue;
             }
-
-            prev = curr;
             curr = curr->next;
         }
 
