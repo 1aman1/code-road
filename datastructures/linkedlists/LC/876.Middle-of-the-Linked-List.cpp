@@ -13,20 +13,15 @@ class Solution
 public:
     ListNode *middleNode(ListNode *head)
     {
-        ListNode *PSlow_x = head;
-        ListNode *PFast_2x = head;
+        ListNode *slowPtr = new ListNode(0, head);
+        ListNode *fastPtr = head;
 
-        while (PFast_2x && PFast_2x->next && PFast_2x->next->next)
+        while (fastPtr && fastPtr->next)
         {
-            PSlow_x = PSlow_x->next;
-            PFast_2x = PFast_2x->next->next;
+            slowPtr = slowPtr->next;
+            fastPtr = fastPtr->next->next;
         }
 
-        if (PFast_2x->next)
-        {
-            PSlow_x = PSlow_x->next;
-        }
-
-        return PSlow_x;
+        return slowPtr->next;
     }
 };
