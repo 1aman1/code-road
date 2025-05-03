@@ -25,7 +25,7 @@ public:
 private:
     Node *insertNodeHelper(Node *aCurrNode, int aVal);
     Node *deleteNodeHelper(Node *aCurrNode, int aVal);
-    Node *findSuccessor(Node *aCurrNode, int aVal);
+    Node *findSuccessor(Node *aCurrNode);
 
     void inOrderHelper(Node *aCurrNode);
 };
@@ -100,7 +100,7 @@ Node *Tree::deleteNodeHelper(Node *aCurrNode, int aVal)
         }
         else
         {
-            Node *successorNode = findSuccessor(aCurrNode->m_right, aVal);
+            Node *successorNode = findSuccessor(aCurrNode->m_right);
             aCurrNode->m_data = successorNode->m_data;
 
             aCurrNode->m_right = deleteNodeHelper(aCurrNode->m_right, successorNode->m_data);
@@ -111,7 +111,7 @@ Node *Tree::deleteNodeHelper(Node *aCurrNode, int aVal)
 
 void Tree::viewInOrder()
 {
-    return inOrderHelper(m_root);
+    inOrderHelper(m_root);
 }
 
 void Tree::inOrderHelper(Node *currNode)
@@ -124,9 +124,8 @@ void Tree::inOrderHelper(Node *currNode)
     }
 }
 
-Node *Tree::findSuccessor(Node *aCurrNode, int aVal)
+Node *Tree::findSuccessor(Node *aCurrNode)
 {
-
     while (aCurrNode && aCurrNode->m_left)
     {
         aCurrNode = aCurrNode->m_left;
@@ -139,14 +138,14 @@ int main()
 {
     std::cout << "Building " << __FILE__ << std::endl;
 
-    Tree *tree = new Tree();
+    Tree tree;
 
-    tree->insertNode(7);
-    tree->insertNode(4);
-    tree->insertNode(14);
+    tree.insertNode(7);
+    tree.insertNode(4);
+    tree.insertNode(14);
 
-    tree->deleteNode(7);
+    tree.deleteNode(7);
 
-    tree->viewInOrder();
+    tree.viewInOrder();
     return 0;
 }
