@@ -24,7 +24,7 @@ private:
 
 public:
     void insertNode(int aVal);
-    void rightView();
+    void BFS();
 
 private:
     NodePtr insertNodeHelper(NodePtr aCurrNode, int aVal);
@@ -56,30 +56,21 @@ NodePtr Tree::insertNodeHelper(NodePtr currNode, int aVal)
     return currNode;
 }
 
-void Tree::rightView()
+void Tree::BFS()
 {
     queue<Node *> q;
     q.push(m_root.get());
 
     while (not q.empty())
     {
-        int levelSize = q.size();
-        for (int i = levelSize - 1; i >= 0; --i)
-        {
-            Node *currElement = q.front();
-            q.pop();
+        Node *currElement = q.front();
+        std::cout << currElement->m_data << " ";
+        q.pop();
 
-            if (i == 0)
-            {
-                std::cout << currElement->m_data << " ";
-            }
-
-            if (currElement->m_left)
-                q.push(currElement->m_left.get());
-            if (currElement->m_right)
-                q.push(currElement->m_right.get());
-        }
-        std::cout << endl;
+        if (currElement->m_left)
+            q.push(currElement->m_left.get());
+        if (currElement->m_right)
+            q.push(currElement->m_right.get());
     }
 }
 
@@ -89,11 +80,19 @@ int main()
 
     Tree tree;
 
-    tree.insertNode(7);
-    tree.insertNode(4);
-    tree.insertNode(14);
+    tree.insertNode(1000);
+    tree.insertNode(500);
+    tree.insertNode(700);
+    tree.insertNode(300);
+    tree.insertNode(400);
+    tree.insertNode(360);
+    tree.insertNode(330);
+    tree.insertNode(2000);
+    tree.insertNode(3000);
+    tree.insertNode(2500);
+    tree.insertNode(2700);
 
-    tree.rightView();
+    tree.BFS();
 
     return 0;
 }

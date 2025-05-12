@@ -77,7 +77,8 @@ void Tree::inOrderHelper(Node *currNode)
 
 int Tree::height()
 {
-    return heightHelper(m_root.get());
+    if (m_root)
+        return heightHelper(m_root.get());
 }
 
 int Tree::heightHelper(Node *aCurrNode)

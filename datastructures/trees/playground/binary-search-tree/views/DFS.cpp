@@ -1,5 +1,6 @@
 #include <iostream>
 #include <memory>
+#include <stack>
 
 using namespace std;
 
@@ -23,13 +24,10 @@ private:
 
 public:
     void insertNode(int aVal);
-    void viewInOrder();
-    int getSizeOfTree();
+    void DFS();
 
 private:
     NodePtr insertNodeHelper(NodePtr aCurrNode, int aVal);
-    void inOrderHelper(Node *aCurrNode);
-    int sizeHelper(Node *);
 };
 
 void Tree::insertNode(int aVal)
@@ -58,34 +56,22 @@ NodePtr Tree::insertNodeHelper(NodePtr currNode, int aVal)
     return currNode;
 }
 
-void Tree::viewInOrder()
+void Tree::DFS()
 {
-    inOrderHelper(m_root.get());
-}
+    stack<Node *> q;
+    q.push(m_root.get());
 
-void Tree::inOrderHelper(Node *currNode)
-{
-    if (currNode)
+    while (not q.empty())
     {
-        inOrderHelper(currNode->m_left.get());
-        cout << currNode->m_data << " ";
-        inOrderHelper(currNode->m_right.get());
-    }
-}
+        Node *currElement = q.top();
+        std::cout << currElement->m_data << " ";
+        q.pop();
 
-int Tree::getSizeOfTree()
-{
-    if (m_root)
-        return sizeHelper(m_root.get());
-}
-
-int Tree::sizeHelper(Node *aCurrNode)
-{
-    if (aCurrNode != nullptr)
-    {
-        return sizeHelper(aCurrNode->m_left.get()) + sizeHelper(aCurrNode->m_right.get()) + 1;
+        if (currElement->m_left)
+            q.push(currElement->m_left.get());
+        if (currElement->m_right)
+            q.push(currElement->m_right.get());
     }
-    return 0;
 }
 
 int main()
@@ -98,8 +84,7 @@ int main()
     tree.insertNode(4);
     tree.insertNode(14);
 
-    tree.viewInOrder();
-    std::cout << "Size " << tree.getSizeOfTree();
+    tree.DFS();
 
     return 0;
 }

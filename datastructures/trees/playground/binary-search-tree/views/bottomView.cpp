@@ -1,15 +1,19 @@
 #include <iostream>
 #include <memory>
+#include <queue>
+#include <map>
 
 using namespace std;
 
 struct Node
 {
     int m_data;
+    int m_distance;
     unique_ptr<Node> m_left;
     unique_ptr<Node> m_right;
 
     Node(int val) : m_data(val),
+                    m_distance(0),
                     m_left(nullptr),
                     m_right(nullptr) {}
 };
@@ -23,13 +27,10 @@ private:
 
 public:
     void insertNode(int aVal);
-    void viewInOrder();
-    int getSizeOfTree();
+    void bottomView();
 
 private:
     NodePtr insertNodeHelper(NodePtr aCurrNode, int aVal);
-    void inOrderHelper(Node *aCurrNode);
-    int sizeHelper(Node *);
 };
 
 void Tree::insertNode(int aVal)
@@ -58,34 +59,43 @@ NodePtr Tree::insertNodeHelper(NodePtr currNode, int aVal)
     return currNode;
 }
 
-void Tree::viewInOrder()
+void Tree::bottomView()
 {
-    inOrderHelper(m_root.get());
-}
+    if (not m_root)
+        return;
 
-void Tree::inOrderHelper(Node *currNode)
-{
-    if (currNode)
+    map<int, int> distToNode;
+    queue<Node *> q;
+
+    Node *currNode = m_root.get();
+    int distance = 0;
+
+    q.push(currNode);
+
+    while (not q.empty())
     {
-        inOrderHelper(currNode->m_left.get());
-        cout << currNode->m_data << " ";
-        inOrderHelper(currNode->m_right.get());
+        currNode = q.front();
+        q.pop();
+        distance = currNode->m_distance;
+
+        distToNode[currNode->m_distance] = currNode->m_data;
+
+        if (currNode->m_left)
+        {
+            currNode->m_left->m_distance = distance - 1;
+            q.push(currNode->m_left.get());
+        }
+        if (currNode->m_right)
+        {
+            currNode->m_right->m_distance = distance + 1;
+            q.push(currNode->m_right.get());
+        }
     }
-}
 
-int Tree::getSizeOfTree()
-{
-    if (m_root)
-        return sizeHelper(m_root.get());
-}
-
-int Tree::sizeHelper(Node *aCurrNode)
-{
-    if (aCurrNode != nullptr)
+    for (const auto &eachPair : distToNode)
     {
-        return sizeHelper(aCurrNode->m_left.get()) + sizeHelper(aCurrNode->m_right.get()) + 1;
+        std::cout << eachPair.second << " ";
     }
-    return 0;
 }
 
 int main()
@@ -97,9 +107,12 @@ int main()
     tree.insertNode(7);
     tree.insertNode(4);
     tree.insertNode(14);
+    tree.insertNode(2);
+    tree.insertNode(5);
+    tree.insertNode(10);
+    tree.insertNode(20);
 
-    tree.viewInOrder();
-    std::cout << "Size " << tree.getSizeOfTree();
+    tree.bottomView();
 
     return 0;
 }

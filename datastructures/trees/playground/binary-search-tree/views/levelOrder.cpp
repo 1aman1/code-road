@@ -1,5 +1,6 @@
 #include <iostream>
 #include <memory>
+#include <list>
 
 using namespace std;
 
@@ -23,13 +24,10 @@ private:
 
 public:
     void insertNode(int aVal);
-    void viewInOrder();
-    int getSizeOfTree();
+    void viewLevelOrder();
 
 private:
     NodePtr insertNodeHelper(NodePtr aCurrNode, int aVal);
-    void inOrderHelper(Node *aCurrNode);
-    int sizeHelper(Node *);
 };
 
 void Tree::insertNode(int aVal)
@@ -58,34 +56,33 @@ NodePtr Tree::insertNodeHelper(NodePtr currNode, int aVal)
     return currNode;
 }
 
-void Tree::viewInOrder()
+void Tree::viewLevelOrder()
 {
-    inOrderHelper(m_root.get());
-}
+    if (!m_root)
+        return;
 
-void Tree::inOrderHelper(Node *currNode)
-{
-    if (currNode)
+    using NodeList = list<Node *>;
+
+    NodeList currLevel{m_root.get()};
+
+    while (!currLevel.empty())
     {
-        inOrderHelper(currNode->m_left.get());
-        cout << currNode->m_data << " ";
-        inOrderHelper(currNode->m_right.get());
-    }
-}
+        NodeList nextLevel;
 
-int Tree::getSizeOfTree()
-{
-    if (m_root)
-        return sizeHelper(m_root.get());
-}
+        for (const auto &node : currLevel)
+        {
+            cout << node->m_data << " ";
 
-int Tree::sizeHelper(Node *aCurrNode)
-{
-    if (aCurrNode != nullptr)
-    {
-        return sizeHelper(aCurrNode->m_left.get()) + sizeHelper(aCurrNode->m_right.get()) + 1;
+            if (node->m_left)
+                nextLevel.push_back(node->m_left.get());
+
+            if (node->m_right)
+                nextLevel.push_back(node->m_right.get());
+        }
+        cout << endl;
+
+        currLevel.swap(nextLevel);
     }
-    return 0;
 }
 
 int main()
@@ -98,8 +95,7 @@ int main()
     tree.insertNode(4);
     tree.insertNode(14);
 
-    tree.viewInOrder();
-    std::cout << "Size " << tree.getSizeOfTree();
+    tree.viewLevelOrder();
 
     return 0;
 }
