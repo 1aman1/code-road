@@ -48,7 +48,7 @@ NodePtr Tree::insertNodeHelper(NodePtr currNode, int aVal)
     }
     else
     {
-        if (aVal < CURRNODE->m_data)
+        if (aVal < currNode->m_data)
         {
             currNode->m_left = insertNodeHelper(std::move(currNode->m_left), aVal);
         }
