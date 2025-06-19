@@ -4,7 +4,8 @@ using namespace std;
 
 class Graph
 {
-	vector<vector<int>> adj;
+	using Node = int;
+	vector<vector<Node>> adj;
 
 public:
 	Graph(int n)
@@ -12,13 +13,13 @@ public:
 		adj.resize(n);
 	}
 
-	void print();
-	void add_edge(int u, int v);
+	void print() const;
+	void add_edge(Node u, Node v);
 };
 
-void Graph::print()
+void Graph::print() const
 {
-	for (int i = 0; i < adj.size(); ++i)
+	for (size_t i = 0; i < adj.size(); ++i)
 	{
 		cout << i << ": ";
 		for (const auto &neighbours : adj[i])
@@ -29,11 +30,11 @@ void Graph::print()
 	}
 }
 
-void Graph::add_edge(int u, int v)
+void Graph::add_edge(Node u, Node v)
 {
 	if (u < 0 || u >= adj.size() || v < 0 || v >= adj.size())
 	{
-		cout << "discarding invalid edge " << u << " -> " << v << endl;
+		cerr << "discarding invalid edge " << u << " -> " << v << endl;
 		return;
 	}
 	adj[u].push_back(v);
@@ -41,25 +42,25 @@ void Graph::add_edge(int u, int v)
 
 int main()
 {
-	Graph go(6);
+	Graph graph(6);
 
-	go.add_edge(0, 1);
-	go.add_edge(0, 4);
-	go.add_edge(0, 5);
+	graph.add_edge(0, 1);
+	graph.add_edge(0, 4);
+	graph.add_edge(0, 5);
 
-	go.add_edge(1, 3);
-	go.add_edge(1, 4);
+	graph.add_edge(1, 3);
+	graph.add_edge(1, 4);
 
-	go.add_edge(2, 1);
+	graph.add_edge(2, 1);
 
-	go.add_edge(3, 2);
-	go.add_edge(3, 4);
+	graph.add_edge(3, 2);
+	graph.add_edge(3, 4);
 
-	go.add_edge(-3, 4);
-	go.add_edge(-3, -44);
-	go.add_edge(3, 44);
+	graph.add_edge(-3, 4);
+	graph.add_edge(-3, -44);
+	graph.add_edge(3, 44);
 
-	go.print();
+	graph.print();
 
 	return 0;
 }
