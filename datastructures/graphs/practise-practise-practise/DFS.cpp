@@ -31,7 +31,7 @@ void Graph::print() const
 
 void Graph::add_edge(Node u, Node v)
 {
-	if (u < 0 || u >= static_cast<int>(adj.size()) || v < 0 || v >= static_cast<int>(adj.size()))
+	if (u < 0 || u >= adj.size() || v < 0 || v >= adj.size())
 	{
 		cerr << "discarding invalid edge " << u << " -> " << v << endl;
 		return;

@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include <queue>
+#include <stack>
 using namespace std;
 
 class Graph
@@ -13,7 +13,10 @@ public:
 
 	void print() const;
 	void add_edge(Node u, Node v);
-	void BFS();
+	void DFS();
+
+private:
+	void DFSHelper(Node src, vector<bool> &visited);
 };
 
 void Graph::print() const
@@ -21,8 +24,8 @@ void Graph::print() const
 	for (size_t i = 0; i < adj.size(); ++i)
 	{
 		cout << i << ": ";
-		for (const auto &neighbour : adj[i])
-			cout << neighbour << " ";
+		for (const auto &eachConnectedNode : adj[i])
+			cout << eachConnectedNode << " ";
 		cout << endl;
 	}
 }
@@ -37,22 +40,23 @@ void Graph::add_edge(Node u, Node v)
 	adj[u].push_back(v);
 }
 
-void Graph::BFS()
+void Graph::DFS()
 {
 	vector<bool> visited(adj.size(), false);
-	queue<Node> nodeQueue;
+	stack<Node> nodeStack;
 
 	for (size_t i = 0; i < adj.size(); ++i)
 	{
 		if (not visited[i])
 		{
-			nodeQueue.push(i);
+			nodeStack.push(i);
 			visited[i] = true;
 
-			while (not nodeQueue.empty())
+			while (not nodeStack.empty())
 			{
-				Node current = nodeQueue.front();
-				nodeQueue.pop();
+				Node current = nodeStack.top();
+				nodeStack.pop();
+
 				cout << current << " ";
 
 				for (const auto &eachConnectedNode : adj[current])
@@ -60,7 +64,7 @@ void Graph::BFS()
 					if (not visited[eachConnectedNode])
 					{
 						visited[eachConnectedNode] = true;
-						nodeQueue.push(eachConnectedNode);
+						nodeStack.push(eachConnectedNode);
 					}
 				}
 			}
@@ -87,7 +91,7 @@ int main()
 
 	graph.print();
 
-	graph.BFS();
+	graph.DFS();
 
 	return 0;
 }
