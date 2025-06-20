@@ -53,6 +53,7 @@ void Graph::BFS()
 			{
 				Node current = nodeQueue.front();
 				nodeQueue.pop();
+				
 				cout << current << " ";
 
 				for (const auto &eachConnectedNode : adj[current])
