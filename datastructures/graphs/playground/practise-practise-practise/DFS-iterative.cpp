@@ -12,11 +12,8 @@ public:
 	Graph(int n) { adj.resize(n); }
 
 	void print() const;
-	void add_edge(Node u, Node v);
-	void DFS();
-
-private:
-	void DFSHelper(Node src, vector<bool> &visited);
+	void addEdge(Node u, Node v);
+	void dfs();
 };
 
 void Graph::print() const
@@ -30,7 +27,7 @@ void Graph::print() const
 	}
 }
 
-void Graph::add_edge(Node u, Node v)
+void Graph::addEdge(Node u, Node v)
 {
 	if (u < 0 || u >= adj.size() || v < 0 || v >= adj.size())
 	{
@@ -40,7 +37,7 @@ void Graph::add_edge(Node u, Node v)
 	adj[u].push_back(v);
 }
 
-void Graph::DFS()
+void Graph::dfs()
 {
 	vector<bool> visited(adj.size(), false);
 	stack<Node> nodeStack;
@@ -77,21 +74,21 @@ int main()
 {
 	Graph graph(6);
 
-	graph.add_edge(0, 1);
-	graph.add_edge(0, 4);
-	// graph.add_edge(0, 5);
+	graph.addEdge(0, 1);
+	graph.addEdge(0, 4);
+	// graph.addEdge(0, 5);
 
-	graph.add_edge(1, 3);
-	graph.add_edge(1, 4);
+	graph.addEdge(1, 3);
+	graph.addEdge(1, 4);
 
-	graph.add_edge(2, 1);
+	graph.addEdge(2, 1);
 
-	graph.add_edge(3, 2);
-	graph.add_edge(3, 4);
+	graph.addEdge(3, 2);
+	graph.addEdge(3, 4);
 
 	graph.print();
 
-	graph.DFS();
+	graph.dfs();
 
 	return 0;
 }

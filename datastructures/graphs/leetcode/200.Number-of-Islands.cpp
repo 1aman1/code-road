@@ -1,54 +1,53 @@
 class Solution
 {
-    int _row;
-    int _col;
-
+    int rows;
+    int cols;
     vector<vector<bool>> visited;
 
-    bool explore_land(int Row, int Col, vector<vector<char>> &grid)
+private:
+    void dfs_explorer(vector<vector<char>> &grid, int r, int c)
     {
-        bool rowCheck = 0 <= Row && Row < _row;
-        bool colCheck = 0 <= Col && Col < _col;
+        bool rowCheck = 0 <= r && r < rows;
+        bool colCheck = 0 <= c && c < cols;
 
         if (!rowCheck || !colCheck)
-            return false;
+            return;
 
-        if (grid[Row][Col] == '0')
-            return false;
+        if (grid[r][c] == '0' || visited[r][c])
+            return;
 
-        if (visited[Row][Col])
-            return false;
+        visited[r][c] = true;
 
-        visited[Row][Col] = true;
-
-        explore_land(Row + 1, Col, grid);
-        explore_land(Row - 1, Col, grid);
-        explore_land(Row, Col + 1, grid);
-        explore_land(Row, Col - 1, grid);
-
-        return true;
+        dfs_explorer(grid, r, c + 1);
+        dfs_explorer(grid, r, c - 1);
+        dfs_explorer(grid, r + 1, c);
+        dfs_explorer(grid, r - 1, c);
     }
 
 public:
     int numIslands(vector<vector<char>> &grid)
     {
-        int total_islands = 0;
+        int numIslands = 0;
 
-        _row = grid.size();
-        _col = grid[0].size();
+        rows = grid.size();
+        if (not rows)
+            return numIslands;
 
-        visited.resize(_row);
-        for (int i = 0; i < _row; ++i)
-            visited[i].resize(_col);
+        cols = grid[0].size();
 
-        for (int i = 0; i < _row; ++i)
+        visited = vector<vector<bool>>(rows, vector<bool>(cols, false));
+
+        for (int r = 0; r < rows; ++r)
         {
-            for (int j = 0; j < _col; ++j)
+            for (int c = 0; c < cols; ++c)
             {
-                if (explore_land(i, j, grid))
-                    ++total_islands;
+                if (grid[r][c] == '1' && !visited[r][c])
+                {
+                    dfs_explorer(grid, r, c);
+                    ++numIslands;
+                }
             }
         }
-        return total_islands;
+        return numIslands;
     }
 };

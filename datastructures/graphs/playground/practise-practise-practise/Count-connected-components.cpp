@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <queue>
 using namespace std;
 
 class Graph
@@ -13,8 +12,10 @@ public:
 
 	void print() const;
 	void addEdge(Node u, Node v);
-	bool BFS(Node src, Node target);
-	void HasPath(Node u, Node v);
+	int count_connected_components();
+
+private:
+	void dfs(Node src, vector<bool> &visited);
 };
 
 void Graph::print() const
@@ -38,43 +39,35 @@ void Graph::addEdge(Node u, Node v)
 	adj[u].push_back(v);
 }
 
-void Graph::HasPath(Node src, Node target)
-{
-	if (BFS(src, target))
-		cout << "path exists\n";
-	else
-		cout << "path doesn't exist\n";
-}
-
-bool Graph::BFS(Node src, Node target)
+int Graph::count_connected_components()
 {
 	vector<bool> visited(adj.size(), false);
-	queue<Node> nodeQueue;
+	int count = 0;
 
-	visited[src] = true;
-	nodeQueue.push(src);
-
-	while (not nodeQueue.empty())
+	for (size_t i = 0; i < adj.size(); ++i)
 	{
-		Node current = nodeQueue.front();
-		nodeQueue.pop();
-
-		if (current == target)
+		if (not visited[i])
 		{
-			return true;
-		}
-
-		for (const auto &eachConnectedNode : adj[current])
-		{
-			if (not visited[eachConnectedNode])
-			{
-				visited[eachConnectedNode] = true;
-				nodeQueue.push(eachConnectedNode);
-			}
+			dfs(i, visited);
+			++count;
 		}
 	}
 
-	return false;
+	return count;
+}
+
+void Graph::dfs(Node src, vector<bool> &visited)
+{
+	visited[src] = true;
+	// cout << src << " ";
+
+	for (const auto &eachConnectedNode : adj[src])
+	{
+		if (not visited[eachConnectedNode])
+		{
+			dfs(eachConnectedNode, visited);
+		}
+	}
 }
 
 int main()
@@ -93,9 +86,9 @@ int main()
 	graph.addEdge(3, 2);
 	graph.addEdge(3, 4);
 
-	graph.print();
+	// graph.print();
 
-	graph.HasPath(1, 5);
+	cout << graph.count_connected_components() << endl;
 
 	return 0;
 }
