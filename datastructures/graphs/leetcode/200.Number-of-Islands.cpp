@@ -27,6 +27,9 @@ private:
 public:
     int numIslands(vector<vector<char>> &grid)
     {
+        if (grid.empty())
+            return 0;
+
         int numIslands = 0;
 
         rows = grid.size();
