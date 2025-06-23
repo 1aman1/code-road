@@ -11,6 +11,6 @@ CTestTestfile.cmake
 _deps
 CMakeUserPresets.json
 
-*a.out
-*a.exe
+**a.out
+**a.exe
 **vscode
