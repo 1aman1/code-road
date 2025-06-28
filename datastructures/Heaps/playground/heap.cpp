@@ -18,7 +18,9 @@ public:
 
     void push(int);
     int pop();
+    int top();
 
+    int size();
     void print();
 
 private:
@@ -97,6 +99,14 @@ int Heap::pop()
     return result;
 }
 
+int Heap::top()
+{
+    if (elements.empty())
+        return -1;
+
+    return elements.front();
+}
+
 void Heap::bubbleUpNewElement()
 {
     int i = noOfElements - 1;
@@ -123,6 +133,11 @@ void Heap::push(int newValue)
     bubbleUpNewElement();
 }
 
+int Heap::size()
+{
+    return elements.size();
+}
+
 void Heap::print()
 {
     for (const auto &e : elements)
@@ -141,12 +156,16 @@ int main()
     obj.push(21);
     obj.push(4);
     obj.push(40);
+    cout << obj.top() << "\n";
 
     cout << obj.pop() << "\n";
+    cout << obj.top() << "\n";
+
+    cout << std::boolalpha << obj.isHeap() << "\n";
 
     obj.heapSort();
     obj.print();
-
+    cout << obj.top() << "\n";
     cout << std::boolalpha << obj.isHeap() << "\n";
 
     return 0;
