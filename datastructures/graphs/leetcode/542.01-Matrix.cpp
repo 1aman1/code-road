@@ -24,7 +24,7 @@ public:
     vector<int> directions = {-1, 0, 1, 0, -1};
     while (!nodeQueue.empty())
     {
-      const auto &[r, c] = nodeQueue.front();
+      auto [r, c] = nodeQueue.front();
       nodeQueue.pop();
 
       for (int i = 0; i < 4; ++i)
@@ -32,9 +32,9 @@ public:
         int row = r + directions[i];
         int col = c + directions[i + 1];
 
-        bool boundsCheck = 0 <= row && row < ROWS && 0 <= col && col < COLS;
+        bool withinBounds = 0 <= row && row < ROWS && 0 <= col && col < COLS;
 
-        if (boundsCheck && distance[row][col] == -1)
+        if (withinBounds && distance[row][col] == -1)
         {
           distance[row][col] = distance[r][c] + 1;
           nodeQueue.emplace(row, col);
