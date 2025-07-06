@@ -28,11 +28,9 @@ public:
 
         while (not nodeQueue.empty())
         {
-            int levelSize = nodeQueue.size();
-
             ++maxDist;
 
-            while (levelSize--)
+            for (int forEachNeighbour = nodeQueue.size(); forEachNeighbour > 0; --forEachNeighbour)
             {
                 auto [row, col] = nodeQueue.front();
                 nodeQueue.pop();
