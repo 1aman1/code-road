@@ -1,12 +1,7 @@
 class Solution
 {
-public:
-  int orangesRotting(vector<vector<int>> &grid)
+  int digestGrid(const vector<vector<int>> &grid, const int &ROWS, const int &COLS, queue<pair<int, int>> &nodeQueue)
   {
-    int ROWS = grid.size();
-    int COLS = grid[0].size();
-    queue<pair<int, int>> nodeQueue;
-
     int countFresh = 0;
     for (int r = 0; r < ROWS; ++r)
     {
@@ -22,6 +17,19 @@ public:
         }
       }
     }
+
+    return countFresh;
+  }
+
+public:
+  int orangesRotting(vector<vector<int>> &grid)
+  {
+    int ROWS = grid.size();
+    int COLS = grid[0].size();
+    queue<pair<int, int>> nodeQueue;
+
+    int countFresh = digestGrid(grid, ROWS, COLS, nodeQueue);
+
     if (not countFresh)
       return 0;
 
