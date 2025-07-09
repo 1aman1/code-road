@@ -26,6 +26,9 @@ public:
       auto [currDist, currNode] = heap.top();
       heap.pop();
 
+      if (currDist > dist[currNode])
+        continue;
+
       for (const auto &[neighbour, weight] : adjList[currNode])
       {
         if (dist[neighbour] > dist[currNode] + weight)
