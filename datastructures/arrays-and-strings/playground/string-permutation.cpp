@@ -8,18 +8,18 @@ public:
 
     std::map<std::string, bool> map;
 
-    void permutation(std::string S, int l, int r);
+    void permutation(std::string S, int left, int right);
 };
 
-void Solution::permutation(std::string S, int l, int r)
+void Solution::permutation(std::string S, int left, int right)
 {
-    if (l != r)
+    if (left != right)
     {
-        for (int i = l; i <= r; i++)
+        for (int i = left; i <= right; i++)
         {
-            std::swap(S[l], S[i]);
-            permutation(S, l + 1, r);
-            std::swap(S[l], S[i]);
+            std::swap(S[left], S[i]);
+            permutation(S, left + 1, right);
+            std::swap(S[left], S[i]);
         }
     }
     else
