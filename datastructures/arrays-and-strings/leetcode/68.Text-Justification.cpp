@@ -38,7 +38,6 @@ public:
 
       else
       {
-
         int spaceAvailable = maxWidth - (lenOfThisLine - currLine.size() + 1);
         int basePaddingLen = spaceAvailable / (currLine.size() - 1);
         int extraPaddingLen = spaceAvailable % (currLine.size() - 1);
