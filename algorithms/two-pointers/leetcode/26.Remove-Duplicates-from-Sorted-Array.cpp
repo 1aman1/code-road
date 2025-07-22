@@ -5,6 +5,7 @@ public:
   {
     nums.erase(std::unique(begin(nums), end(nums)),
                end(nums));
+
     return nums.size();
   }
 };

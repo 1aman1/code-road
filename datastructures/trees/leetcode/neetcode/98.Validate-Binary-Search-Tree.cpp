@@ -12,8 +12,10 @@ private:
         if (root != nullptr)
         {
             if (MIN < root->val && root->val < MAX)
+            {
                 return isValidBST(MIN, root->left, root->val) &&
                        isValidBST(root->val, root->right, MAX);
+            }
 
             return false;
         }
