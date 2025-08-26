@@ -1,6 +1,10 @@
 DP
 Fibonacci, House Robber,
 
+random
+Asteroid Collision
+Cheapest Flights Within K Stops
+
 
 restructure repo based on
 single DS
