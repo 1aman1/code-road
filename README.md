@@ -1,6 +1,6 @@
 # code-road
 
-<img src='https://github.com/1aman1/code-road/blob/master/utils/git%20sketches.png'>
+<img src='https://github.com/1aman1/code-road/blob/master/images/git%20sketches.png'>
 
 ***
 
