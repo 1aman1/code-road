@@ -3,23 +3,23 @@ class Solution
 public:
     int diameterOfBinaryTree(TreeNode *root)
     {
-        height(root);
+        int diameter = 0;
+        height(root, diameter);
         return diameter;
     }
 
 private:
-    int diameter = 0;
-
-    int height(TreeNode *root)
+    int height(TreeNode *root, int &diameter)
     {
         if (root == nullptr)
             return 0;
 
-        int leftHeight = height(root->leftHeight);
-        int rightHeight = height(root->rightHeight);
-        if (diameter < leftHeight + rightHeight)
-            diameter = leftHeight + rightHeight;
+        int leftSubtreeHeight = height(root->left, diameter);
+        int rightSubtreeHeight = height(root->right, diameter);
+        if (diameter < leftSubtreeHeight + rightSubtreeHeight)
+            diameter = leftSubtreeHeight + rightSubtreeHeight;
 
-        return 1 + max(leftHeight, rightHeight);
+        return 1 +
+               max(leftSubtreeHeight, rightSubtreeHeight);
     }
 };
