@@ -17,13 +17,12 @@ public:
       return nullptr;
 
     ListNode *dummyHead = new ListNode(0, head);
-
     ListNode *curr = head;
     ListNode *prev = dummyHead;
 
     while (curr)
     {
-      while (curr->next && curr->next->val == curr->val)
+      while (curr->next && curr->val == curr->next->val)
         curr = curr->next;
 
       if (prev->next == curr)

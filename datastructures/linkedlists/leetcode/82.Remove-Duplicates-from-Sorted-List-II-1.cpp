@@ -1,10 +1,20 @@
 class Solution
 {
+  void nodeShredder(ListNode *duplicateRange, ListNode *head)
+  {
+    while (duplicateRange->next != head->next)
+    {
+      ListNode *deleteCandidate = duplicateRange;
+      duplicateRange = duplicateRange->next;
+      delete deleteCandidate;
+    }
+  }
+
 public:
   ListNode *deleteDuplicates(ListNode *head)
   {
-    ListNode *dummy = new ListNode(0, head);
-    ListNode *prev = dummy;
+    ListNode *dummyHead = new ListNode(0, head);
+    ListNode *prev = dummyHead;
 
     while (head != nullptr)
     {
@@ -18,22 +28,16 @@ public:
       else
       {
         ListNode *duplicateRange = prev->next;
-
+        nodeShredder(duplicateRange, head);
         prev->next = head->next;
-
-        while (duplicateRange->next != head->next)
-        {
-          ListNode *deleter = duplicateRange;
-          duplicateRange = duplicateRange->next;
-          delete deleter;
-        }
       }
+
       head = head->next;
     }
 
-    ListNode *newHead = dummy->next;
-    delete dummy;
+    head = dummyHead->next;
+    delete dummyHead;
 
-    return newHead;
+    return head;
   }
 };
