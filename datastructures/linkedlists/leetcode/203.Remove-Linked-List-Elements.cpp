@@ -17,7 +17,6 @@ public:
             return head;
 
         ListNode *dummyHead = new ListNode(INT_MIN, head);
-
         ListNode *curr = dummyHead;
         ListNode *deleteNode = nullptr;
 
@@ -28,9 +27,11 @@ public:
                 deleteNode = curr->next;
                 curr->next = curr->next->next;
                 delete deleteNode;
-                continue;
             }
-            curr = curr->next;
+            else
+            {
+                curr = curr->next;
+            }
         }
 
         head = dummyHead->next;

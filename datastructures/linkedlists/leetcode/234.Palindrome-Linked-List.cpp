@@ -24,7 +24,7 @@ class Solution
         ListNode *rhslistHead = slowPtr->next;
         slowPtr->next = nullptr;
 
-        return {head, rhslistHead};
+        return std::pair{head, rhslistHead};
     }
 
     ListNode *reverse(ListNode *head)
@@ -44,16 +44,16 @@ class Solution
         return prev;
     }
 
-    bool compare(ListNode *lhsHalf, ListNode *rhsHalf)
+    bool compare(ListNode *head1, ListNode *head2)
     {
-        while (lhsHalf && rhsHalf)
+        while (head1 && head2)
         {
-            if (lhsHalf->val != rhsHalf->val)
+            if (head1->val != head2->val)
             {
                 return false;
             }
-            lhsHalf = lhsHalf->next;
-            rhsHalf = rhsHalf->next;
+            head1 = head1->next;
+            head2 = head2->next;
         }
         return true;
     }
@@ -66,10 +66,10 @@ public:
             return true;
         }
 
-        auto [lhsHead, rhsHead] = partitionList(head);
+        auto [head1, head2] = partitionList(head);
 
-        rhsHead = reverse(rhsHead);
+        head2 = reverse(head2);
 
-        return compare(lhsHead, rhsHead);
+        return compare(head1, head2);
     }
 };
