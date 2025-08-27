@@ -1,8 +1,3 @@
-#include <iostream>
-#include <vector>
-#include <unordered_map>
-#include <algorithm>
-
 class Solution
 {
 public:
@@ -17,7 +12,7 @@ public:
             fast_2x = nums[nums[fast_2x]];
         } while (slow_x != fast_2x);
 
-        slow_x = 0;
+        fast_2x = 0;
 
         while (slow_x != fast_2x)
         {
@@ -28,14 +23,3 @@ public:
         return slow_x;
     }
 };
-
-int main()
-{
-    Solution obj;
-
-    std::vector<int> nums = {1, 3, 4, 2, 2};
-
-    std::cout << obj.findDuplicate(nums) << std::endl;
-
-    return 0;
-}
