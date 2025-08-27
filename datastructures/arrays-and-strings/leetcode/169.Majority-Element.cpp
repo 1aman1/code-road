@@ -1,39 +1,24 @@
-#include <iostream>
-#include <vector>
-#include <unordered_map>
-
 class Solution
 {
 public:
     int majorityElement(std::vector<int> &nums)
     {
-        int majorElement;
+        int majorityElement;
         int count = 0;
 
         for (const auto &current : nums)
         {
             if (count == 0)
             {
-                majorElement = current;
+                majorityElement = current;
                 count = 1;
             }
             else
             {
-                count += (current == majorElement ? 1 : -1);
+                count += (current == majorityElement ? 1 : -1);
             }
         }
 
-        return majorElement;
+        return majorityElement;
     }
 };
-
-int main()
-{
-    Solution obj;
-
-    std::vector<int> nums = {2, 2, 1, 1, 1, 2, 2};
-
-    std::cout << obj.majorityElement(nums) << std::endl;
-
-    return 0;
-}

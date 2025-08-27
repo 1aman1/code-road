@@ -1,9 +1,3 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
-
-using namespace std;
-
 class Solution
 {
 public:
@@ -16,20 +10,8 @@ public:
         {
             if (nums[i] != 0)
             {
-                swap(nums[++lastNonZeroIdx], nums[i]);
+                swap(nums[i], nums[++lastNonZeroIdx]);
             }
         }
     }
 };
-
-int main()
-{
-    vector<int> nums = {0, 1, 0, 3, 12};
-
-    Solution obj;
-    obj.moveZeroes(nums);
-
-    for (auto i : nums)
-        cout << i << "\n";
-    return 0;
-}
