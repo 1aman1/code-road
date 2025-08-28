@@ -3,7 +3,7 @@ class Solution
 public:
     void rotate(vector<vector<int>> &grid)
     {
-        reverse(begin(grid), end(grid));
+        reverse(grid.begin(), grid.end());
 
         for (int i = 0; i < grid.size(); i++)
         {
