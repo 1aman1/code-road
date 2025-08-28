@@ -1,12 +1,6 @@
-#include <iostream>
-#include <vector>
-
 class Solution
 {
-public:
-    std::vector<std::vector<int>> result;
-
-    void permuteUtil(std::vector<int> &nums, const int &left, const int &right)
+    void permuteUtil(const int &left, const int &right, std::vector<std::vector<int>> &result, std::vector<int> &nums)
     {
         if (left == right)
         {
@@ -16,40 +10,18 @@ public:
 
         for (auto i = left; i <= right; ++i)
         {
-            std::swap(nums[i], nums[left]);
-            permuteUtil(nums, left + 1, right);
-            std::swap(nums[i], nums[left]);
+            std::swap(nums[left], nums[i]);
+            permuteUtil(left + 1, right, result, nums);
+            std::swap(nums[left], nums[i]);
         }
     }
 
+public:
     std::vector<std::vector<int>> permute(std::vector<int> &nums)
     {
-        permuteUtil(nums, 0, nums.size() - 1);
+        std::vector<std::vector<int>> result;
+        permuteUtil(0, nums.size() - 1, result, nums);
 
         return result;
     }
 };
-
-void print(const std::vector<std::vector<int>> &result)
-{
-    for (auto row : result)
-    {
-        for (auto col : row)
-        {
-            std::cout << col << " ";
-        }
-        std::cout << std::endl;
-    }
-}
-
-int main()
-{
-    std::vector<int> nums = {1, 2, 3};
-    Solution obj;
-
-    std::vector<std::vector<int>> result = obj.permute(nums);
-
-    print(result);
-
-    return 0;
-}
