@@ -6,16 +6,16 @@ public:
     vector<vector<int>> result;
     vector<int> current;
 
-    combineUtility(1, n, k, current, result);
+    combineUtility(1, current, result, n, k);
     return result;
   }
 
   void combineUtility(
       int start,
-      const int &n,
-      const int &k,
       vector<int> &current,
-      vector<vector<int>> &result)
+      vector<vector<int>> &result,
+      const int &n,
+      const int &k)
   {
     if (current.size() == k)
     {
@@ -23,10 +23,10 @@ public:
       return;
     }
 
-    for (int i = start; i <= n - (k - current.size()) + 1; ++i)
+    for (int i = start; i <= n + 1 - (k - current.size()); ++i)
     {
       current.push_back(i);
-      combineUtility(i + 1, n, k, current, result);
+      combineUtility(i + 1, current, result, n, k);
       current.pop_back();
     }
   }

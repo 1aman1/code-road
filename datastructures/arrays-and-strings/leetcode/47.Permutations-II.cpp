@@ -29,10 +29,9 @@ public:
         sort(nums.begin(), nums.end());
 
         int NUMS_SIZE = nums.size();
-        vector<vector<int>> permutations;
-
         vector<int> current(NUMS_SIZE);
         vector<bool> visited(NUMS_SIZE, false);
+        vector<vector<int>> permutations;
 
         dfs(0, current, visited, permutations, nums, NUMS_SIZE);
 

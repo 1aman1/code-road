@@ -1,47 +1,28 @@
-#include <iostream>
-#include <algorithm>
-#include <vector>
-#include <unordered_map>
-#include <map>
-#include <bitset>
-#include <list>
-
-using namespace std;
-
 class Solution
 {
 public:
     vector<string> generateParenthesis(int n)
     {
-        vector<string> result;
-        generator(n, 0 /*open*/, 0 /*close*/, "", result);
-        return result;
+        vector<string> combinations;
+        generator(n, 0, 0, "", combinations);
+        return combinations;
     }
 
 private:
-    void generator(int n, int open, int close, string combinations, vector<string> &result)
+    void generator(int n, int open, int close, string curr, vector<string> &combinations)
     {
         if (open == n && close == n)
         {
-            result.push_back(combinations);
+            combinations.push_back(curr);
             return;
         }
         if (open < n)
         {
-            generator(n, open + 1, close, combinations + '(', result);
+            generator(n, open + 1, close, curr + '(', combinations);
         }
         if (close < open)
         {
-            generator(n, open, close + 1, combinations + ')', result);
+            generator(n, open, close + 1, curr + ')', combinations);
         }
     }
 };
-
-int main()
-{
-    Solution obj;
-
-    for (const auto &i : obj.generateParenthesis(2))
-        cout << i << "\n";
-    return 0;
-}
