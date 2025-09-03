@@ -1,12 +1,12 @@
 // dynamic programming
 class Solution
 {
-    int start(const vector<int> &nums, const int n)
+    int start(const vector<int> &nums, const int start, const int end)
     {
-        int prev2Prev = nums[0];
-        int prev = max(nums[0], nums[1]);
-        
-        for (int i = 2; i < n; ++i)
+        int prev2Prev = 0;
+        int prev = 0;
+
+        for (int i = start; i <= end; ++i)
         {
             int curr = max(prev, nums[i] + prev2Prev);
             prev2Prev = prev;
@@ -24,8 +24,9 @@ public:
         if (n == 2)
             return max(nums[0], nums[1]);
 
-        int robbedMoney = start(nums, n);
+        int robbedMoneyFirst = start(nums, 0, n - 2);
+        int robbedMoneySecond = start(nums, 1, n - 1);
 
-        return robbedMoney;
+        return max(robbedMoneyFirst, robbedMoneySecond);
     }
 };
