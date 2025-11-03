@@ -1,6 +1,6 @@
 class Solution
 {
-  int digestGrid(const vector<vector<int>> &grid, const int &ROWS, const int &COLS, queue<pair<int, int>> &nodeQueue)
+  int digestGrid(const vector<vector<int>> &grid, const int &ROWS, const int &COLS, queue<pair<int, int>> &rottenOrangesQueue)
   {
     int countFresh = 0;
     for (int r = 0; r < ROWS; ++r)
@@ -13,7 +13,7 @@ class Solution
         }
         else if (grid[r][c] == 2)
         {
-          nodeQueue.emplace(r, c);
+          rottenOrangesQueue.emplace(r, c);
         }
       }
     }
@@ -26,9 +26,9 @@ public:
   {
     int ROWS = grid.size();
     int COLS = grid[0].size();
-    queue<pair<int, int>> nodeQueue;
+    queue<pair<int, int>> rottenOrangesQueue;
 
-    int countFresh = digestGrid(grid, ROWS, COLS, nodeQueue);
+    int countFresh = digestGrid(grid, ROWS, COLS, rottenOrangesQueue);
 
     if (not countFresh)
       return 0;
@@ -36,14 +36,14 @@ public:
     vector<int> directions = {-1, 0, 1, 0, -1};
     int minutes = 0;
 
-    while (not nodeQueue.empty() && countFresh > 0)
+    while (not rottenOrangesQueue.empty() && countFresh > 0)
     {
       ++minutes;
 
-      for (int i = nodeQueue.size(); i > 0; --i)
+      for (int i = rottenOrangesQueue.size(); i > 0; --i)
       {
-        auto [row, col] = nodeQueue.front();
-        nodeQueue.pop();
+        auto [row, col] = rottenOrangesQueue.front();
+        rottenOrangesQueue.pop();
 
         for (int eachDirection = 0; eachDirection < 4; ++eachDirection)
         {
@@ -56,7 +56,7 @@ public:
           {
             grid[r][c] = 2;
             --countFresh;
-            nodeQueue.emplace(r, c);
+            rottenOrangesQueue.emplace(r, c);
           }
         }
       }
