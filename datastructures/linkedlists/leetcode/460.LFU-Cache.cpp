@@ -1,39 +1,46 @@
 class LFUCache
 {
-    int capacity, minFreq;
-    typedef std::list<int>::iterator listIt;
+    int capacity;
+    int minFreq;
 
-    std::unordered_map<int, std::pair<int, int>> keytoValFreq;
-    std::unordered_map<int, std::list<int>> freqtoKeys;
-    std::unordered_map<int, listIt> keytoItr;
+    using ListIter = std::list<int>::iterator;
+
+    // key -> {value, frequency}
+    std::unordered_map<int, std::pair<int, int>> keyToValueFreq;
+
+    // frequency -> list of keys (in order of recency)
+    std::unordered_map<int, std::list<int>> freqToKeys;
+
+    // key -> iterator in its frequency list
+    std::unordered_map<int, ListIter> keyToIterator;
 
 public:
-    LFUCache(int capacity) : capacity(capacity), minFreq(0)
-    {
-    }
+    LFUCache(int capacity) : capacity(capacity), minFreq(0) {}
 
     int get(int key)
     {
-        if (!keytoValFreq.count(key))
+        if (!keyToValueFreq.count(key))
             return -1;
 
-        auto [val, freq] = keytoValFreq.at(key);
+        auto [value, freq] = keyToValueFreq[key];
 
-        freqtoKeys[freq].erase(keytoItr.at(key));
-        if (freqtoKeys[freq].empty())
+        // remove key from current frequency list
+        freqToKeys[freq].erase(keyToIterator[key]);
+
+        // if no more keys with this frequency
+        if (freqToKeys[freq].empty())
         {
-            freqtoKeys.erase(freq);
+            freqToKeys.erase(freq);
             if (minFreq == freq)
                 ++minFreq;
         }
 
-        freqtoKeys[freq + 1].push_front(key);
+        // move key to higher frequency bucket
+        freqToKeys[freq + 1].push_front(key);
+        keyToIterator[key] = freqToKeys[freq + 1].begin();
+        keyToValueFreq[key] = {value, freq + 1};
 
-        keytoItr[key] = freqtoKeys[freq + 1].begin();
-
-        keytoValFreq[key] = {val, freq + 1};
-
-        return val;
+        return value;
     }
 
     void put(int key, int value)
@@ -41,32 +48,32 @@ public:
         if (capacity == 0)
             return;
 
-        if (keytoValFreq.count(key))
+        // If key exists, just update its value and frequency
+        if (keyToValueFreq.count(key))
         {
-            keytoValFreq[key].first = value;
-
-            get(key);
+            keyToValueFreq[key].first = value;
+            get(key); // reuse get() to update frequency
             return;
         }
 
-        if (keytoValFreq.size() == capacity)
+        // Eviction if at capacity
+        if (keyToValueFreq.size() == capacity)
         {
-            int evictionKey = freqtoKeys[minFreq].back();
-            freqtoKeys[minFreq].pop_back();
+            int keyToEvict = freqToKeys[minFreq].back();
+            freqToKeys[minFreq].pop_back();
 
-            if (freqtoKeys[minFreq].empty())
-            {
-                freqtoKeys.erase(minFreq);
-            }
+            if (freqToKeys[minFreq].empty())
+                freqToKeys.erase(minFreq);
 
-            keytoItr.erase(evictionKey);
-            keytoValFreq.erase(evictionKey);
+            keyToValueFreq.erase(keyToEvict);
+            keyToIterator.erase(keyToEvict);
         }
 
-        keytoValFreq[key] = {value, 1};
+        // Insert new key with freq = 1
         minFreq = 1;
-        freqtoKeys[1].push_front(key);
-        keytoItr[key] = freqtoKeys[1].begin();
+        freqToKeys[1].push_front(key);
+        keyToIterator[key] = freqToKeys[1].begin();
+        keyToValueFreq[key] = {value, 1};
     }
 };
 
