@@ -1,31 +1,32 @@
 // dynamic programming
 class Solution
 {
-    int start(const vector<int> &nums, const int start, const int end)
+    int start(const int start, const int end, const vector<int> &nums)
     {
-        int prev2Prev = 0;
-        int prev = 0;
+        int idx_minus2 = 0;
+        int idx_minus1 = 0;
 
-        for (int i = start; i <= end; ++i)
+        for (int idx = start; idx <= end; ++idx)
         {
-            int curr = max(prev, nums[i] + prev2Prev);
-            prev2Prev = prev;
-            prev = curr;
+            int currentIdx = max(nums[idx] + idx_minus2,
+                                 idx_minus1);
+            idx_minus2 = idx_minus1;
+            idx_minus1 = currentIdx;
         }
-        return prev;
+        return idx_minus1;
     }
 
 public:
     int rob(vector<int> &nums)
     {
-        int n = nums.size();
-        if (n == 1)
+        int SIZE = nums.size();
+        if (SIZE == 1)
             return nums[0];
-        if (n == 2)
+        if (SIZE == 2)
             return max(nums[0], nums[1]);
 
-        int robbedMoneyFirst = start(nums, 0, n - 2);
-        int robbedMoneySecond = start(nums, 1, n - 1);
+        int robbedMoneyFirst = start(0, SIZE - 2, nums);
+        int robbedMoneySecond = start(1, SIZE - 1, nums);
 
         return max(robbedMoneyFirst, robbedMoneySecond);
     }

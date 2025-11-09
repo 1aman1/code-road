@@ -4,21 +4,21 @@ class Solution
 public:
     int rob(vector<int> &nums)
     {
-
-        int n = nums.size();
-        if (n == 1)
+        int SIZE = nums.size();
+        if (SIZE == 1)
             return nums[0];
-        if (n == 2)
+        if (SIZE == 2)
             return max(nums[0], nums[1]);
 
-        vector<int> dp(n);
-        dp[0] = nums[0];
-        dp[1] = max(nums[0], nums[1]);
+        vector<int> cache(SIZE);
+        cache[0] = nums[0];
+        cache[1] = max(nums[0], nums[1]);
 
-        for (int i = 2; i < n; ++i)
+        for (int i = 2; i < SIZE; ++i)
         {
-            dp[i] = max(dp[i - 1], nums[i] + dp[i - 2]);
+            cache[i] = max(nums[i] + cache[i - 2],
+                           cache[i - 1]);
         }
-        return dp[n - 1];
+        return cache[SIZE - 1];
     }
 };

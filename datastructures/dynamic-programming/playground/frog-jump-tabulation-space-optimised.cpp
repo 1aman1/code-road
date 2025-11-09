@@ -23,7 +23,7 @@ int solve(int noOfSteps, vector<int> &heights)
         idx_minus1 = currentIdx;
     }
 
-    return idx_minus1;
+    return currentIdx;
 }
 
 int main()

@@ -6,7 +6,7 @@ class LFUCache
     using ListIter = std::list<int>::iterator;
 
     // key -> {value, frequency}
-    std::unordered_map<int, std::pair<int, int>> keyToValueFreq;
+    std::unordered_map<int, std::pair<int, int>> keyRecord;
 
     // frequency -> list of keys (in order of recency)
     std::unordered_map<int, std::list<int>> freqToKeys;
@@ -19,10 +19,10 @@ public:
 
     int get(int key)
     {
-        if (!keyToValueFreq.count(key))
+        if (!keyRecord.count(key))
             return -1;
 
-        auto [value, freq] = keyToValueFreq[key];
+        auto [value, freq] = keyRecord[key];
 
         // remove key from current frequency list
         freqToKeys[freq].erase(keyToIterator[key]);
@@ -31,14 +31,14 @@ public:
         if (freqToKeys[freq].empty())
         {
             freqToKeys.erase(freq);
-            if (minFreq == freq)
+            if (freq == minFreq)
                 ++minFreq;
         }
 
         // move key to higher frequency bucket
         freqToKeys[freq + 1].push_front(key);
         keyToIterator[key] = freqToKeys[freq + 1].begin();
-        keyToValueFreq[key] = {value, freq + 1};
+        keyRecord[key] = {value, freq + 1};
 
         return value;
     }
@@ -49,15 +49,15 @@ public:
             return;
 
         // If key exists, just update its value and frequency
-        if (keyToValueFreq.count(key))
+        if (keyRecord.count(key))
         {
-            keyToValueFreq[key].first = value;
+            keyRecord[key].first = value;
             get(key); // reuse get() to update frequency
             return;
         }
 
         // Eviction if at capacity
-        if (keyToValueFreq.size() == capacity)
+        if (keyRecord.size() == capacity)
         {
             int keyToEvict = freqToKeys[minFreq].back();
             freqToKeys[minFreq].pop_back();
@@ -65,7 +65,7 @@ public:
             if (freqToKeys[minFreq].empty())
                 freqToKeys.erase(minFreq);
 
-            keyToValueFreq.erase(keyToEvict);
+            keyRecord.erase(keyToEvict);
             keyToIterator.erase(keyToEvict);
         }
 
@@ -73,7 +73,7 @@ public:
         minFreq = 1;
         freqToKeys[1].push_front(key);
         keyToIterator[key] = freqToKeys[1].begin();
-        keyToValueFreq[key] = {value, 1};
+        keyRecord[key] = {value, 1};
     }
 };
 
