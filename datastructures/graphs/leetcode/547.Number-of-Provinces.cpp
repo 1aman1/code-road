@@ -1,13 +1,11 @@
 class Solution
 {
-
 public:
     int findCircleNum(vector<vector<int>> &isConnected)
     {
-
         int noOfCities = isConnected[0].size();
 
-        if (noOfCities <= 1)
+        if (noOfCities == 1)
             return 1;
 
         int noOfProvinces = 0;
