@@ -8,8 +8,8 @@ class Solution
         int leftSubtreeHeight = height(root->left, diameter);
         int rightSubtreeHeight = height(root->right, diameter);
 
-        if (diameter < leftSubtreeHeight + rightSubtreeHeight)
-            diameter = leftSubtreeHeight + rightSubtreeHeight;
+        diameter = max(diameter,
+                       leftSubtreeHeight + rightSubtreeHeight);
 
         return 1 +
                max(leftSubtreeHeight, rightSubtreeHeight);
