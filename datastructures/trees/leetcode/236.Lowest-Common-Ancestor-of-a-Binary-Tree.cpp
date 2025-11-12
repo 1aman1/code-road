@@ -20,11 +20,17 @@ public:
     TreeNode *lst = lowestCommonAncestor(root->left, p, q);
     TreeNode *rst = lowestCommonAncestor(root->right, p, q);
 
-    if (lst != nullptr && rst != nullptr)
+    if (lst == nullptr)
     {
+      return rst;
+    }
+    else if (rst == nullptr)
+    {
+      return lst;
+    }
+    else
+    { // both left and right are not null, we found our result
       return root;
     }
-
-    return lst != nullptr ? lst : rst;
   }
 };
